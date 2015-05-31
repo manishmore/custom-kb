@@ -10,6 +10,8 @@ class Controller {
               $id,
               $db,
               $userValidation;
+            
+              
     
     public function __construct($model="Model", $controller="Controler", $action="index") {
         // register configurations
@@ -20,6 +22,7 @@ class Controller {
         
         // construct MVC
         $this->_controller = $controller;
+       
         $this->_action = $action;
 		// initialise the template class
         $this->view = new Template($controller, $action);   
@@ -27,8 +30,10 @@ class Controller {
         $this->init();
 		// start contruct models
         $this->_model = new $model($this->db);
+      
         $this->_model->controller = $this;
         $this->table = $controller;
+        $this->base_url = __DIR__; 
     }
     
     /**

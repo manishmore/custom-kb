@@ -1,5 +1,6 @@
 <?php 
 $this->layout = '~/views/shared/_defaultLayout.php';
+echo $cfg['site']['base_url']." manish----";
 ?>
 <div class="block bgWhite">
 	<div class="content">

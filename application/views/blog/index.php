@@ -1,4 +1,5 @@
 <?php 
+echo "manishsdsdsssasa";
 if(!MyHelpers::isAjax()){
 $this->layout = '~/views/shared/_defaultLayout.php';
 if(isset($_GET['extjs']) && $_GET['extjs']==true){
@@ -76,9 +77,10 @@ $this->section['head']="
 		</script>
 ";
 }
+
 ?>
 <?php
-if(isset($_GET['extjs']) && $_GET['extjs']==true){
+if(isset($_GET['extjs']) && $_GET['extjs'] == true){
 ?>
 <div class="block bgWhite">
 	<div class="content"><div id='bloglist'></div></div>

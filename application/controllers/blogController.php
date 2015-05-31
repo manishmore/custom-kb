@@ -46,6 +46,7 @@ class blogController extends Controller {
 	}
 
 	public function create($author=null, $title=null, $content=null){
+	die('sss');
 		if($_SERVER["REQUEST_METHOD"]=='POST'){		
 			$id = $this->_model->create($author,$title,$content);
 			if($id !== false){

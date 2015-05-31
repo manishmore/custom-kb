@@ -3,7 +3,7 @@
 if(session_id() === ""){
     session_start();
 }
-
+echo "test..";
 // define the directory separator
 define('DS', DIRECTORY_SEPARATOR);
 // define the application path

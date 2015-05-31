@@ -22,13 +22,17 @@ $cfg['site']['title'] = $cfg['site']['name'] . " : " . $cfg['site']['name'];
 */
 $cfg['site']['address'] = 'http://127.0.0.1/custom-kb';
 /**
-* company logo
+* logo
 */
 $cfg['site']['logo'] = 'logo.png';
 /**
 * The software version 
 */
 $cfg['site']['version'] = '1.0.0';
+/**
+* BASE URL IN MVC 
+*/
+$base_dir = __DIR__;
 /**
 * System contact e-mails
 */

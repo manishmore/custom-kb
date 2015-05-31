@@ -1,4 +1,5 @@
 <?php 
+echo "INDEX.php";
 $this->layout = '~/views/shared/_defaultLayout.php';
 //$this->section['head']='<script src="http://code.jquery.com/jquery-latest.min.js"></script>'; 
 ?>
