@@ -1,12 +1,12 @@
 <?php
-class vendorModel extends Model{
+class adminModel extends Model{
 	protected function init(){
 		
 	}	
 	
 	public function create($author,$title,$content){
 		$id = false;
-		$result = $this->db->query("INSERT INTO `blog`(`author`,`title`,`content`,`last_update`) VALUES('$author','{$title}','{$content}',NOW())");
+			$result = $this->db->query("INSERT INTO `blog`(`author`,`title`,`content`,`last_update`) VALUES('$author','{$title}','{$content}',NOW())");
 		if($result !== false){
 			$id = $this->db->insertId();
 		}			

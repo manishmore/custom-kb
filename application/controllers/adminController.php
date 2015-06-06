@@ -1,19 +1,16 @@
 <?php
-class vendorController extends Controller { 
-       public $base_dir;
-  
-	protected function init(){    
+class adminController extends Controller {    
+
+    protected function init(){    
         $this->db = new MySqlDataAdapter($this->cfg['db']['hostname'], $this->cfg['db']['username'], 
         $this->cfg['db']['password'], $this->cfg['db']['database']);
     }
-    
-    
-    public function index(){
-		
+	
+	public function index(){
 		$data = $this->_model->read();
 		if(MyHelpers::isAjax()){
 			header('Content-type: application/json');
-				echo $data;
+			echo $data;
 		}else{
 			$this->view->set('items',$data);
 		return $this->view();
@@ -29,7 +26,6 @@ class vendorController extends Controller {
 		$this->view->set('item',$data[0]);
 		return $this->view();		
 	}
-	
 	
 	public function edit($id, $author=null, $title=null, $content=null){
 		if(empty($id)){
@@ -70,5 +66,3 @@ class vendorController extends Controller {
 		}
 	}
 }
-
-?>
