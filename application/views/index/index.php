@@ -1,5 +1,5 @@
 <?php 
-echo "INDEX.php";
+echo "<H> WEL-COME ".$cfg['site']['owner']."</H>";
 $this->layout = '~/views/shared/_defaultLayout.php';
 //$this->section['head']='<script src="http://code.jquery.com/jquery-latest.min.js"></script>'; 
 ?>

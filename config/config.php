@@ -8,11 +8,11 @@
 /**
 * Site name
 */
-$cfg['site']['name'] = "Start your own MVC Framework with PHP";
+$cfg['site']['name'] = "Kokanmaza.com";
 /**
 * Site owner name
 */
-$cfg['site']['owner'] = "Sample CMS in MVC(PHP)";
+$cfg['site']['owner'] = "Kokanmaza.com";
 /**
 * Page title
 */
