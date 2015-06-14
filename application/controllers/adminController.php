@@ -1,4 +1,7 @@
 <?php
+ /*
+ * 
+ * */
 class adminController extends Controller {    
 
     protected function init(){    
@@ -7,18 +10,35 @@ class adminController extends Controller {
     }
 	
 	public function index(){
+		if(Session::get('loggin') == false){
+			MyHelpers::redirect('admin');
+		}
+		die('sdsds');
 		$data = $this->_model->read();
-		if(MyHelpers::isAjax()){
+		if (MyHelpers::isAjax()) {
 			header('Content-type: application/json');
 			echo $data;
-		}else{
+		}
+		else {
+			$this->view->set('items',$data);
+		return $this->view();
+		}
+	}
+
+	public function login() {
+		$data = $this->_model->GetUser();
+		if (MyHelpers::isAjax()) {
+			header('Content-type: application/json');
+			echo $data;
+		}
+		else {
 			$this->view->set('items',$data);
 		return $this->view();
 		}
 	}
 	
 	public function detail($id){
-		if(empty($id)){
+		if (empty($id)) {
 			return $this->unknownAction();
 		}
 		
@@ -56,10 +76,10 @@ class adminController extends Controller {
 		return $this->view();
 	}
 	
-	public function delete($id){
-		if($_SERVER["REQUEST_METHOD"]=='POST'){
+	public function delete($id) {
+		if ($_SERVER["REQUEST_METHOD"]=='POST') {
 			$result = $this->_model->delete($id);
-			if($result !== false){
+			if ($result !== false) {
 				header('Location: /mvc/blog');
 				exit;
 			}

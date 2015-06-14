@@ -103,3 +103,8 @@ $cfg['php']['SMTP'] = 'mail.gmail.com';
 * SMTP port
 */
 $cfg['php']['smtp_port'] = '25';
+
+//set prefix for sessions
+define('SESSION_PREFIX','dc_');
+
+

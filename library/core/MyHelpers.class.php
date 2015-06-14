@@ -231,4 +231,19 @@ class MyHelpers{
             return $path;
         }
     }
+    /*
+     * Redirect function for MyHelper class.
+     * */
+    
+   public static function redirect($url = null, $fullpath = false){
+		
+		 if($fullpath == false){
+			 header('location: '.$url);
+			 exit;
+		 } else {
+		 	header('location: '.$url);
+		 	exit;
+		 }
+
+	}
 }
