@@ -1,0 +1,9 @@
+name = kb_search
+description =  kokanbazaar vendor custom module for login and registration.
+package = Custom-kb module
+version = VERSION
+core = 7.x
+files[] = kb_vendors.module
+; Information added by drupal.org packaging script on 2010-03-21
+version = "7.0-alpha3"
+project = "drupal"

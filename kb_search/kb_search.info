@@ -1,0 +1,10 @@
+name = kb_search
+description = search vendor details
+package = Custom-kb module
+version = VERSION
+core = 7.x
+files[] = kb_search.module
+files[] = kb_search.form.inc
+; Information added by drupal.org packaging script on 2010-03-21
+version = "7.0-alpha3"
+project = "drupal"

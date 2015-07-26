@@ -1,0 +1,219 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function kb_search_menu() {
+  $items = array();
+
+  $items['kb/search'] = array(
+    'title' => 'Pencarian kb',
+    'description' => 'Halaman pencarian kb',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('kb_search_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  
+   $items['vendor/autocomplete'] = array(
+'page callback' => '_kb_search_autocomplete',
+'access arguments' => array('access example autocomplete'),
+'type' => MENU_CALLBACK
+); 
+
+  return $items;
+}
+
+
+/**
+* Implements hook_form() vendor_search_form
+*/
+ 
+ function kb_search_form($form, &$form_state) {
+
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Title',
+    '#maxlength' => 128,
+    '#autocomplete_path' => 'vendor/autocomplete',
+  ); 
+
+   $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Save',
+   );
+   return $form;
+ } 
+ 
+ 
+   function _kb_search_autocomplete($string) {
+   
+    $matches = array();
+    // Some fantasy DB table which holds cities
+   
+    $query = db_select('node', 'c');
+    // Select rows that match the string
+    
+    $return = $query
+    ->fields('c', array('title'))
+    ->condition('c.title', '%' . db_like($string) . '%', 'LIKE')
+    ->range(0, 10)
+    ->execute();
+    // add matches to $matches
+    
+    foreach ($return as $row) {
+    $matches[$row->title] = check_plain($row->title);
+    }    
+   
+    // return for JS
+    drupal_json_output($matches);
+  } 
+    
+    
+    
+   
+
+/**
+ * Remove items from the form in a after_build event.
+ *
+ * @param array $form
+ *   The drupal form.
+ *
+ * @return array
+ *   The drupal form, post modifications.
+ */
+function _kb_search_form_after_build($form) {
+  unset($form['form_token']);
+  unset($form['form_build_id']);
+  unset($form['form_id']);
+  return $form;
+}
+
+/**
+ * Get results by using filters in the query string.
+ *
+ * @return array
+ *   An array of node id's.
+ */
+function _kb_search_results() {
+
+
+  $values = drupal_get_query_parameters();
+  $field_values = array(
+    'pilihan' => FALSE,
+    'kata' => '',
+  );
+
+  // @todo: You may need to update these variables.
+  $cari = array_key_exists('cari', $values) && is_array($values['cari']) ? $values['cari'] : array();
+
+  // If the user has not submitted the form.
+  if (!$cari) {
+    $field_values = array(
+      'pilihan' => '7',
+      'kata' => 'searchterm',
+    );
+  }
+  $query = array(
+    'pilihan' => array_key_exists('pilihan', $cari) ? $cari['pilihan'] : $field_values['pilihan'],
+    'kata' => array_key_exists('kata', $cari) ? $cari['kata'] : $field_values['kata'],
+  );
+
+
+  $bundles = array('montype');
+  $field_conditions = array(
+    '1' => 'body',
+    '2' => 'body',
+    '3' => 'field_dosis',
+    '4' => 'field_efek_samping',
+    '5' => 'field_peringatan',
+    '6' => 'field_interaksi',
+    '7' => 'field_kontraindikasi',
+  );
+  $propery_conditions = array('title');
+  if ($query['pilihan'] == '1') {
+    $bundles[] = 'kb';
+  }
+
+  $efquery = new EntityFieldQuery();
+  $efquery->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $bundles);;
+
+  if ($query['pilihan']) {
+    if (array_key_exists($query['kata'], $field_conditions)) {
+      $efquery->fieldCondition($field_conditions[$query['pilihan']], 'value', $query['kata'], 'CONTAINS');
+    }
+    elseif (array_key_exists($query['pilihan'], $propery_conditions)) {
+      $efquery->propertyCondition($propery_conditions[$query['pilihan']], $query['kata'], 'CONTAINS');
+    }
+  }
+
+  $results = $efquery->pager(20)
+    ->execute();
+
+  return array(
+    'query' => $query,
+    'nids' => $results ? array_keys($results['node']) : array(),
+  );
+}
+
+/**
+ * Node teaser display for the results of the kb search.
+ *
+ * @param array $nodes
+ *   An array of nodes.
+ *
+ * @return array
+ *   A renderable build array.
+ */
+function _kb_search_results_node(array $nodes) {
+  return node_view_multiple($nodes, 'teaser');
+}
+
+/**
+ * Table display for the results of the kb search.
+ *
+ * @param array $nodes
+ *   An array of nodes.
+ *
+ * @return array
+ *   A renderable build array.
+ */
+function _kb_search_results_table(array $nodes) {
+die('sds');
+  $build = array(
+    '#theme' => 'table',
+    '#header' => array(
+      t('Node Id'),
+      t('Title'),
+      t('Created'),
+      t('Random field'),
+    ),
+    '#attributes' => array(
+      'class' => array('kb-search-results-table'),
+    ),
+    '#rows' => array(),
+    '#sticky' => FALSE,
+    '#empty' => t('There are no results matching that criteria.'),
+  );
+
+  foreach ($nodes as $n) {
+    $field_random_field = field_get_items('node', $n, 'field_random_field');
+    $random_field = $field_random_field ? $field_random_field[0]['value'] : '';
+
+    $build['#rows'][] = array(
+      $n->nid,
+      $n->title,
+      $n->created,
+      $random_field,
+    );
+  }
+
+  return $build;
+}
+
+
+
+
+
+?>

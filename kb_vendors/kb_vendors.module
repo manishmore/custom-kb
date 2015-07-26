@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+function kb_vendors_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#vendors":
+      return '<p>' . t("Displays links to nodes created on this date") . '</p>';
+      break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function kb_vendors_menu() {
+  $items = array();
+
+  $items['vendor/register'] = array(
+    'title' => 'Vendor Registration form',
+    'description' => 'Register Vendor user',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('kb_vendors_form'),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+function kb_vendors_form($form, &$form_state) {
+
+  $user_roles = array(2 => 'authenticated user', 4 => 'vendor');
+      $form['name'] = array(
+        '#title' => 'username',
+        '#description' => 'choose a username',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+      );
+
+      $form['pass_fields'] = array(
+        '#type' => 'password_confirm',
+        '#description' => t('Enter the same password in both fields'),
+        '#size' => 32,
+        '#required' => TRUE,
+      );
+
+      $form['mail'] = array(
+        '#title' => 'email',
+        '#description' => 'enter a valid email address',
+        '#type' => 'textfield',
+        '#required' => TRUE,
+      );
+      $form['field_fname'] = array(
+        '#title' => 'First Name',
+        '#type' => 'textfield',
+      );
+      $form['field_lname'] = array(
+        '#title' => 'Last Name',
+        '#type' => 'textfield',
+      );
+      $form['user_roles'] = array(
+        '#type' => 'radios',
+        '#title' => t('Roles'),
+        '#options' => $user_roles,
+        '#default_value' => 4,
+      );
+      $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Save'),
+      );
+
+   return $form;
+
+}
+
+/*
+*
+*
+*/
+function kb_vendors_form_submit($form, &$form_state) {
+
+  if (!variable_get('user_email_verification', TRUE) || $admin) {
+    $pass = $form_state['values']['pass_fields'];
+  }
+  else {
+    $pass = user_password();
+  }
+  // Remove unneeded values.
+  form_state_values_clean($form_state);
+
+  $form_state['values']['pass'] = $pass;
+
+  var_dump($form_state);
+
+  die('sds');
+
+  $edit = array(
+          'name' => $form_state['values']['name'],
+          'pass' => $pass,
+          'mail' => $form_state['values']['mail'],
+          'init' => $form_state['values']['mail'],
+          'status' => 1,
+          'access' => REQUEST_TIME,
+          'field_fname' => array(LANGUAGE_NONE => array(array('value' => $form_state['values']['field_fname']))),
+          'field_lname' => array(LANGUAGE_NONE => array(array('value' => $form_state['values']['field_lname']))),
+          'roles' => array(
+               4 => 'company',
+                ),
+    );
+  user_save(drupal_anonymous_user(), $edit);
+}
+
