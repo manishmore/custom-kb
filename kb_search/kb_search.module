@@ -14,12 +14,12 @@ function kb_search_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_NORMAL_ITEM,
   );
-  
-   $items['vendor/autocomplete'] = array(
-'page callback' => '_kb_search_autocomplete',
-'access arguments' => array('access example autocomplete'),
-'type' => MENU_CALLBACK
-); 
+
+  $items['vendor/autocomplete'] = array(
+    'page callback' => '_kb_search_autocomplete',
+    'access arguments' => array('access example autocomplete'),
+    'type' => MENU_CALLBACK
+  );
 
   return $items;
 }
@@ -28,7 +28,7 @@ function kb_search_menu() {
 /**
 * Implements hook_form() vendor_search_form
 */
- 
+
  function kb_search_form($form, &$form_state) {
 
   $form['title'] = array(
@@ -36,42 +36,42 @@ function kb_search_menu() {
     '#title' => 'Title',
     '#maxlength' => 128,
     '#autocomplete_path' => 'vendor/autocomplete',
-  ); 
+  );
 
    $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save',
    );
    return $form;
- } 
- 
- 
+ }
+
+
    function _kb_search_autocomplete($string) {
-   
+
     $matches = array();
     // Some fantasy DB table which holds cities
-   
+
     $query = db_select('node', 'c');
     // Select rows that match the string
-    
+
     $return = $query
     ->fields('c', array('title'))
     ->condition('c.title', '%' . db_like($string) . '%', 'LIKE')
     ->range(0, 10)
     ->execute();
     // add matches to $matches
-    
+
     foreach ($return as $row) {
     $matches[$row->title] = check_plain($row->title);
-    }    
-   
+    }
+
     // return for JS
     drupal_json_output($matches);
-  } 
-    
-    
-    
-   
+  }
+
+
+
+
 
 /**
  * Remove items from the form in a after_build event.
@@ -180,7 +180,7 @@ function _kb_search_results_node(array $nodes) {
  *   A renderable build array.
  */
 function _kb_search_results_table(array $nodes) {
-die('sds');
+
   $build = array(
     '#theme' => 'table',
     '#header' => array(

@@ -35,6 +35,10 @@ function kb_vendors_menu() {
   return $items;
 }
 
+/*
+*
+*/
+
 function kb_vendors_form($form, &$form_state) {
 
   $user_roles = array(2 => 'authenticated user', 4 => 'vendor');
@@ -97,10 +101,6 @@ function kb_vendors_form_submit($form, &$form_state) {
   form_state_values_clean($form_state);
 
   $form_state['values']['pass'] = $pass;
-
-  var_dump($form_state);
-
-  die('sds');
 
   $edit = array(
           'name' => $form_state['values']['name'],
