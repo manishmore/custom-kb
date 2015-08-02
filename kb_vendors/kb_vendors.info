@@ -1,4 +1,4 @@
-name = kb_search
+name = kb_vendors
 description =  kokanbazaar vendor custom module for login and registration.
 package = Custom-kb module
 version = VERSION

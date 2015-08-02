@@ -40,7 +40,7 @@ function kb_search_menu() {
 
    $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Save',
+    '#value' => 'Search',
    );
    return $form;
  }

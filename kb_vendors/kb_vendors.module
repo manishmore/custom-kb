@@ -29,9 +29,10 @@ function kb_vendors_menu() {
     'description' => 'Register Vendor user',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('kb_vendors_form'),
-    'access arguments' => array('access content'),
+    'access callback' => 'user_register_access',
     'type' => MENU_NORMAL_ITEM,
   );
+
   return $items;
 }
 
