@@ -1,0 +1,111 @@
+<?php
+
+/*
+ +--------------------------------------------------------------------+
+ | CiviCRM version 4.0                                                |
+ +--------------------------------------------------------------------+
+ | Copyright CiviCRM LLC (c) 2004-2011                                |
+ +--------------------------------------------------------------------+
+ | This file is a part of CiviCRM.                                    |
+ |                                                                    |
+ | CiviCRM is free software; you can copy, modify, and distribute it  |
+ | under the terms of the GNU Affero General Public License           |
+ | Version 3, 19 November 2007 and the CiviCRM Licensing Exception.   |
+ |                                                                    |
+ | CiviCRM is distributed in the hope that it will be useful, but     |
+ | WITHOUT ANY WARRANTY; without even the implied warranty of         |
+ | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.               |
+ | See the GNU Affero General Public License for more details.        |
+ |                                                                    |
+ | You should have received a copy of the GNU Affero General Public   |
+ | License and the CiviCRM Licensing Exception along                  |
+ | with this program; if not, contact CiviCRM LLC                     |
+ | at info[AT]civicrm[DOT]org. If you have questions about the        |
+ | GNU Affero General Public License or the licensing of CiviCRM,     |
+ | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
+ +--------------------------------------------------------------------+
+*/
+
+/**
+ *
+ * @package CRM
+ * @copyright CiviCRM LLC (c) 2014-2015
+ * $Id$
+ *
+ */
+
+function civicrm_customdata_multirow_form_civicrm_config( &$config ) {
+
+    $template =& CRM_Core_Smarty::singleton( );
+    $customRoot = dirname( __FILE__ );
+    $customDir = $customRoot . DIRECTORY_SEPARATOR . 'templates';
+    if ( is_array( $template->template_dir ) ) {
+        array_unshift( $template->template_dir, $customDir );
+    } else {
+        $template->template_dir = array( $customDir, $template->template_dir );
+    }
+    // also fix php include path
+    $include_path = $customRoot . PATH_SEPARATOR . get_include_path( );
+    set_include_path( $include_path );
+}
+
+
+/**
+ * Implement hook_civicrm_buildForm
+ * To display the multi row custom fields as text box fields
+ */
+
+function civicrm_customdata_multirow_form_civicrm_buildForm($formName, &$form) {
+
+	if($formName == 'CRM_Contribute_Form_Contribution_Main') {
+
+    }
+}
+
+/**
+ * Implement hook_civicrm_post
+ */
+
+function civicrm_customdata_multirow_form_civicrm_post( $op, $objectName, $objectId, &$objectRef ){
+    if (arg(0) == 'civicrm' && arg(1) == 'contribute' && arg(2) == 'transact' ) {
+
+    }
+}
+
+/**
+ * Implement hook_civicrm_postProcess
+ * To save the entered mutli row custom field values to the database using api
+ */
+
+function civicrm_customdata_multirow_form_civicrm_postProcess($formName, &$form ){
+
+   if( $formName == 'CRM_Contribute_Form_Contribution_Main') {
+      // send mail function.
+    
+      $send_an_email = false; //Set to TRUE for DEBUG only
+      $email_from = 'manish.more64@gmail.com'; //FROM email address
+      $headers = "From: ".$email_from."\r\n";  
+      $headers .= "Reply-To: ".$email_from."\r\n";  
+      $headers .= "CC: manish23@live.com\r\n";  
+      $headers .= "BCC: surendra77c@gmail.com\r\n";
+      if (!empty($form->_submitValues['custom_10'])) {
+      $email_to = $form->_submitValues['custom_10']; //TO email address
+      } elseif(!empty($form->_submitValues['custom_9'])) {
+      $email_to = $form->_submitValues['custom_9']; //TO email address
+      }
+      $email_sbj = 'CiviCRM Honor of In Memory';
+      $email_msg = "CiviCRM Honor of In Memory of contribution was called.\n".$op." ".$objectName."\n".$objectId." ";
+
+      if ($form->_submitValues['custom_7'] == '1' && !empty($email_to)){
+        $email_sbj .= "-contribution processed.";
+        $email_msg .= "Dear Sir/madam"."\n";
+        $send_an_email = true;
+      }
+      if ($send_an_email) {
+        mail($email_to, $email_sbj, $email_msg,$headers);
+     }
+   }
+}
+
+
+

@@ -1,0 +1,5 @@
+name = Civicrm Customdata Multi-records Form
+description = Support to display multi-records custom data fields in Event/Configuration pages, as these fields cannot be added to profile. 
+dependencies[] = civicrm
+package = CiviCRM
+core = 7.x

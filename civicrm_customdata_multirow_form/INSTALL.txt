@@ -1,0 +1,66 @@
+// $Id: INSTALL.txt,v 1.0 2011/12/19 11:50:00 posco Exp $
+
+================================================
+Civicrm Customdata Multi-records Form  
+================================================
+
+Requirements
+---------------------------------------------
+
+This module requires CiviCRM 4.0.x or greater and Drupal 7.x.
+
+Installation Instructions
+---------------------------------------------
+
+To install the Civicrm Customdata Multi-records Form Module, move the 
+`civicrm_customdata_multirow_form` directory to your drupal's  `sites/all/modules/` directory.
+
+Run the script.sql (found inside the civicrm_customdata_multirow_form modules folder) in the civicrm database which will 
+create a table used for custom group settings in contribution page.
+
+Enable the Module
+---------------------------------------------
+
+Navigate to Drupal > Administer > Site building > Modules and enable the Civicrm Customdata Multi-records Form module.
+
+Refer to the Drupal documentation for further information on how to install modules.
+
+Set the multi-record custom group
+---------------------------------------------
+
+To set up the multi-record group to be used in the contribution pape:
+
+Navigate to Contributions > Manage Contribution Pages > {Your Contribution Page} > Configure >> Include Profiles.
+
+You should be able to see 2 drop down lists 'Include multi row custom group-1' and 'Include multi row custom group-2', where you can select the 
+multi-record custom groups which are to be used in the contribution page, similar to profiles.
+
+Please note: the drop down list will display only the custom group names, which allow multiple records.
+
+How to use
+---------------------------------------------
+
+Once you have included the custom group in the above step, you should be able to view the fields in the custom group in the contribution page, where the 
+user can add multiple records. For example, Qualification or Experience.
+
+The entered values will be saved as custom data (multi-record) against the contact.
+
+TO DO
+---------------------------------------------
+
+Display the multiple records added by the user in the Contribution Confirmation page. 
+
+Contact Information
+---------------------------------------------
+
+All feedback and comments of a technical nature (including support questions)
+and for all other comments you can reach me at the following e-mail address. Please
+include "Civicrm Customdata Multi-records Form" somewhere in the subject.
+
+rajesh AT millertech.co.uk
+
+License Information
+---------------------------------------------
+
+Copyright (C) Miller Technology 2010
+
