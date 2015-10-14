@@ -7,3 +7,16 @@
 <p><input type='submit' name='submit' value='Login'></p>
 
 </form>
+
+
+<?php
+
+/*if(isset($_POST['submit'])){
+print_r($_POST['submit']);
+
+var_dump('ssdsd');
+
+die('dfdfd');
+}
+*/
+?>
