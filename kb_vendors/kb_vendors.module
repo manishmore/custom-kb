@@ -87,7 +87,7 @@ function kb_vendors_form($form, &$form_state) {
 }
 
 /*
-*
+* handle form submit.
 *
 */
 function kb_vendors_form_submit($form, &$form_state) {

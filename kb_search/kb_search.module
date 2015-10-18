@@ -7,7 +7,7 @@ function kb_search_menu() {
   $items = array();
 
   $items['kb/search'] = array(
-    'title' => 'Pencarian kb',
+    'title' => 'kokan-bazaar Search',
     'description' => 'Halaman pencarian kb',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('kb_search_form'),
@@ -212,8 +212,34 @@ function _kb_search_results_table(array $nodes) {
   return $build;
 }
 
+function kb_search_theme_registry_alter(&$theme_registry) {
+  // tell the theme system to look in the "templates" subdirectory within our module directory
+  $theme_registry['search_results']['theme paths'] = array(0 => drupal_get_path('module', 'kb_search') . '/templates');
+  $theme_registry['search_results']['theme path'] = drupal_get_path('module', 'kb_search') . '/templates';
+  $theme_registry['search_results']['path'] = drupal_get_path('module', 'kb_search') . '/templates';
+  // tell the theme system to use 'search-results.tpl.php' as the template file. Note that you do not include 'tpl.php'
+  $theme_registry['search_results']['template'] = 'search-results';
+}
+
+/*
+* to implement hook_search_execute() to perform the search.
+
+function kb_search_search_execute($keys = NULL, $conditions = NULL) {
 
 
 
+
+}
+*/
+/**
+ * Process a search form submission.
+ */
+function kb_search_form_submit($form, &$form_state) {
+var_dump($form_state['values']['title']);
+//$result = hook_search_execute($form_state['values']['title'], $conditions = NULL);
+ $result = node_search_execute($form_state['values']['title'], $conditions = NULL);
+ //$form_state['redirect'] = $form_state['action'] . '/' . $keys;
+
+}
 
 ?>
